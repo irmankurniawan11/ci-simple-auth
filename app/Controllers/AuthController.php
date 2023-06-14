@@ -79,4 +79,66 @@ class AuthController extends BaseController
 
         return redirect()->to('login')->with('success', 'You have been logged out.');
     }
+
+    public function processForgotPassword()
+    {
+        $rules = [
+            'email' => 'required|valid_email'
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $userModel = new UserModel();
+        $email = $this->request->getVar('email');
+        $user = $userModel->where('email', $email)->first();
+        if (!$user) {
+            return redirect()->back()->withInput()->with('error', 'No user found with the provided email address.');
+        }
+
+        $resetToken = bin2hex(random_bytes(32));
+        $userModel->update($user['id'], ['reset_token' => $resetToken]);
+
+        //email sending logic
+        //ganti menjadi fake email dengan modal
+        $email_msg = site_url('reset-password').'/'.$resetToken;
+
+        return redirect()->back()->with('success', 'A password reset link has been sent to your email.')->with('emailsuccess',$email_msg);
+    }
+
+    public function resetPassword($token) {
+        $userModel = new UserModel();
+        $user = $userModel->where('reset_token', $token)->first();
+        if (!$user) {
+            return redirect()->to('login')->with('error', 'Invalid password reset token.');
+        }
+
+        return view('reset-password', ['token' => $token]);
+    }
+
+    public function processResetPassword() {
+        $rules = [
+            'password' => 'required|min_length[6]',
+            'confirm_password' => 'required|matches[password]'
+        ];
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $userModel = new UserModel();
+        $user = $userModel->where('reset_token', $this->request->getVar('token'))->first();
+
+        if (!$user) {
+            return redirect()->to('login')->with('error', 'Invalid password reset token.');
+        }
+
+        $password = $this->request->getVar('password');
+        $userModel->update($user['id'], [
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'reset_token' => null
+        ]);
+
+        return redirect()->to('login')->with('success', 'Password reset successful. You can now log in with your new password.');
+    }
 }

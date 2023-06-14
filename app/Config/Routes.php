@@ -35,6 +35,13 @@ $routes->post('/login', 'AuthController::processLogin');
 
 $routes->get('/register', 'Home::register');
 $routes->post('/register', 'AuthController::processRegister');
+
+$routes->get('/forgot-password', 'Home::forgotPassword');
+$routes->post('/forgot-password', 'AuthController::processForgotPassword');
+
+$routes->get('/reset-password/(:any)', 'AuthController::resetPassword/$1');
+$routes->post('/reset-password', 'AuthController::processResetPassword');
+
 $routes->get('/logout', 'AuthController::logout');
 /*
  * --------------------------------------------------------------------

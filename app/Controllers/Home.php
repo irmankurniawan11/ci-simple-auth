@@ -16,4 +16,9 @@ class Home extends BaseController
     public function register() {
         return view('register');
     }
+
+    public function forgotPassword()
+    {
+        return view('forgot-password');
+    }
 }

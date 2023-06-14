@@ -1,7 +1,10 @@
 <?= $this->extend('layout/template'); ?>
 
 <?= $this->section('content'); ?>
-<?php if (!session()->get('email')) : ?>
+
+<?php if(!session()->get('email')) : ?>
+    <h1>You are not logged in.</h1>
+    <a href="/login" class="btn btn-primary">Login here</h1>
     <?php return redirect()->to('/login'); ?>
 <?php endif ?>
 

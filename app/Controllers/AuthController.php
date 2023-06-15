@@ -29,8 +29,7 @@ class AuthController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Invalid email or password.');
         }
 
-        $session = session();
-        $session->set([
+        $this->session->set([
             'user_id' => $user['id'],
             'name' => $user['name'],
             'email' => $user['email'],
@@ -74,8 +73,7 @@ class AuthController extends BaseController
     }
 
     public function logout() {
-        $session = session();
-        $session->destroy();
+        $this->session->destroy();
 
         return redirect()->to('login')->with('success', 'You have been logged out.');
     }

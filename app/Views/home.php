@@ -2,12 +2,6 @@
 
 <?= $this->section('content'); ?>
 
-<?php if(!session()->get('email')) : ?>
-    <h1>You are not logged in.</h1>
-    <a href="/login" class="btn btn-primary">Login here</h1>
-    <?php return redirect()->to('/login'); ?>
-<?php endif ?>
-
 <section class="container max-w-[720px] mx-auto">
     <div class="card w-full bg-base-100 shadow-xl">
         <div class="card-body">

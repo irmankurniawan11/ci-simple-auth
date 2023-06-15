@@ -6,7 +6,9 @@ class Home extends BaseController
 {
     public function index()
     {
-        return view('home');
+        if(session()->get('email'))
+            return view('home');
+        else return redirect()->to('login');
     }
 
     public function login() {

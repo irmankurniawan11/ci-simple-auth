@@ -14,6 +14,7 @@
                 </div>
             <?php endif ?>
             <form action="<?= site_url('register') ?>" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Nama</span>

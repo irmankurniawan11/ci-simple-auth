@@ -24,6 +24,7 @@
                 </div>
             <?php endif ?>
             <form action="<?= site_url('reset-password') ?>" method="post">
+            <?= csrf_field() ?>
             <input type="hidden" name="token" value="<?= $token; ?>"/>
                 <div class="form-control">
                     <label class="label">

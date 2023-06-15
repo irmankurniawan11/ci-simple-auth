@@ -24,6 +24,7 @@
                 </div>
             <?php endif ?>
             <form action="<?= site_url('login') ?>" method="post">
+                <?= csrf_field() ?>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Email</span>

@@ -37,6 +37,7 @@
             </dialog>
             <?php endif ?>
             <form action="<?= site_url('forgot-password') ?>" method="post">
+                <?= csrf_field() ?>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Email</span>

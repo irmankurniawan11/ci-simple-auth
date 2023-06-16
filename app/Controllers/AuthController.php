@@ -44,21 +44,23 @@ class AuthController extends BaseController
             'name' => 'required',
             'email' => 'required|valid_email|is_unique[users.email]',
             'password' => 'required|min_length[6]',
-            'profile_picture' => 'uploaded[profile_picture]|max_size[profile_picture,1024]|is_image[profile_picture]'
+            'profile_picture' => 'max_size[profile_picture,1024]|is_image[profile_picture]'
         ];
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-
+        $profilePictureName = null;
         $profilePicture = $this->request->getFile('profile_picture');
-        $profilePictureName = '';
-        if ($profilePicture->isValid() && !$profilePicture->hasMoved()) {
-            $newName = $profilePicture->getRandomName();
-            $profilePicture->move(ROOTPATH . 'public/uploads', $newName);
-            $profilePictureName = $profilePicture->getName();
+        if($profilePicture->getError() == 4) {
         }
-
+        else {
+            if ($profilePicture->isValid() && !$profilePicture->hasMoved()) {
+                $newName = $profilePicture->getRandomName();
+                $profilePicture->move(ROOTPATH . 'public/uploads', $newName);
+                $profilePictureName = $profilePicture->getName();
+            }
+        }
 
         $userModel = new UserModel();
         $userData = [

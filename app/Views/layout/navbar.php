@@ -12,7 +12,10 @@
         <div class="dropdown dropdown-end ml-2">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
-              <img src="https://placehold.co/100x100/red/white?text=I" />
+              <?php $imgsrc = (session()->has('profile_picture')
+                ? base_url('uploads/' . session()->get('profile_picture'))
+                : "https://placehold.co/100x100/orange/white?text=" . substr(session()->get('name'), 0, 1)); ?>
+              <img src="<?= $imgsrc ?>" />
             </div>
           </label>
           <ul tabindex="0" class="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">

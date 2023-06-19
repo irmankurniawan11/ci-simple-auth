@@ -31,8 +31,9 @@ class UserController extends BaseController {
             unlink(ROOTPATH . 'public/uploads/'.$user['profile_picture']);
         }
 
-        session()->unset('profile_picture');
-
+        session()->remove('profile_picture');
+        session()->regenerate();
+        
         return redirect()->to('/')->with('success', 'Profile photo successfully deleted.');
     }
 }
